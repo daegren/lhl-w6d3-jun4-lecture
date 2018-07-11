@@ -19,15 +19,19 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Setup the WebSocket client
     this.socket = new WebSocket("ws://localhost:8080/websocket");
 
+    // Handle when the socket opens (i.e. is connected to the server)
     this.socket.addEventListener("open", e => {
       console.log("Connected to websocket server");
     });
 
+    // Handle messages using `this.receiveMessage`
     this.socket.addEventListener("message", this.receiveMessage);
   }
 
+  // Event handler for messages being received from the Socket server.
   receiveMessage = e => {
     const msg = JSON.parse(e.data);
 
@@ -45,10 +49,12 @@ class App extends Component {
     }
   };
 
+  // Change event handler for the controlled message input
   updateMessage = e => {
     this.setState({ message: e.target.value });
   };
 
+  // KeyPress event handler for the controlled message input
   sendMessage = e => {
     if (e.key === "Enter") {
       const msg = {
@@ -60,6 +66,7 @@ class App extends Component {
     }
   };
 
+  // Change event handler for the background color select.
   changeBackground = e => {
     this.setState({ backgroundColor: e.target.value }, () => {
       const message = {
